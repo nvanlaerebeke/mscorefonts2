@@ -1,0 +1,113 @@
+* Sun Oct 7 2012  Rob Janes <janes.rob gmail com> 2.2-1
+- moved install script to shell script, run in post step
+- switched to sha256 from md5
+- available at
+https://downloads.sourceforge.net/project/mscorefonts2/specs/msttcore-fonts-installer-2.2-1.spec
+
+* Mon Sep 15 2012  Rob Janes <janes.rob gmail com> 2.1-2
+- updated comments, messages, description and such.
+- don't download older cabs for fonts in the EUupdate.EXE file,
+unless the download for the EUupdate failed.
+- available at
+https://downloads.sourceforge.net/project/mscorefonts2/specs/msttcore-fonts-2.1-2.spec
+
+* Sat Sep 8 2012  Rob Janes <janes.rob gmail com> 2.1-1
+- generates distributable rpm that downloads and unpacks the fonts at
+install time, not rpmbuild time
+- available at
+https://downloads.sourceforge.net/project/mscorefonts2/specs/msttcore-fonts-2.1-1.spec
+
+* Sat Sep 8 2012  Rob Janes <janes.rob gmail com> 2.0-7
+- added EUupdate.EXE European Union Expansion Update circa May 2007
+- refactored sourceforge mirror stuff
+- replaced wget with curl, which seems to be installed by default on fedora
+- replaced ttmkfdir with mkfontscale and mkfontdir.  This creates fonts.dir file
+for the core X font system.  ttmkfdir has been supersceded by mkfontdir - they
+both create fonts.dir but mkfontdir is part of xorg-x11-font-utils.
+- removed 09-msttcorefonts.conf and refactored fc-cache lines.  fc-cache walks
+subdirectories so the 09-msttcorefonts.conf to add the /usr/share/font/msttcore
+is redundant.  fc-cache indexes for the Xft font system, not the legacy core X
+font system.
+- added 09-msttcore-fontpath.conf to /etc/X11/xorg.conf.d for core X font system
+- added xset fp+ to add the fontdirectory to core X font for the current session so
+the installer doesn't have to relogin.
+- available at
+https://downloads.sourceforge.net/project/mscorefonts2/specs/msttcore-fonts-2.0-7.spec
+
+* Mon Aug 15 2011  Dennis Johnson 2.0-6
+- BuildRequires ttmkfdir, cabextract, wget
+- removes Requires
+- fixes sourceforge mirror
+- generates 09-msttcorefonts.conf
+- restores call to ttmkfdir in %install section
+- available from http://fenris02.fedorapeople.org/msttcore-fonts-2.0-6.spec
+
+* Sat Dec 11 2010  Hnr Kordewiner <hnr@kordewiner.com> 2.0-5
+- move 09-msttcorefonts.conf to this spec file
+- drop %{ttmkfdir} - again
+- msttcore fonts history site setup at http://moin.kordewiner.com/helpdesk/fedora/mscorefonts
+- available from http://moin.kordewiner.com/helpdesk/fedora/mscorefonts?action=AttachFile&do=get&target=msttcore-fonts-2.0-5.spec
+
+* Mon Jun 07 2010 Zied FAKHFAKH <fzied@dottn.com> 2.0-3
+- removed chkfontpath dependency for Fedora >= 9
+- removed prerun and post chkconfig reference
+- divergent development, same purpose as Andrew Bartlett's but derived from Noa Resare's 2.0-1
+- available from http://moin.kordewiner.com/helpdesk/fedora/mscorefonts?action=AttachFile&do=get&target=msttcorefonts-2.0-3.spec
+
+* Tue Jun 16 2009  Dennis Johnson 2.0-4
+- Provides msttcorefonts
+- Requires ttmkfdir, cabextract
+- restores call to ttmkfdir in %install section
+- available from http://fenris02.fedorapeople.org/msttcore-fonts-2.0-4.spec
+
+* Wed Jun 25 2008  Muayyad Saleh Alsadi <alsadi gmail com> 2.0-3
+- drop %{ttmkfdir} completely 
+
+* Mon Feb 18 2008 Andrew Bartlett <abartlet samba org> 2.0-2
+- Make work with Fedora 9 fonts system
+- available from http://moin.kordewiner.com/helpdesk/fedora/mscorefonts?action=AttachFile&do=get&target=msttcorefonts-2.0-2.spec
+
+* Sun May 07 2006 Noa Resare <noa resare com> 2.0-1
+- checksums downloads
+- random mirror
+- use redistributable word 97 viewer as source for tahoma.ttf
+- available from http://corefonts.sourceforge.net/msttcorefonts-2.0-1.spec
+
+* Mon Mar 31 2003 Daniel Resare <noa resare com> 1.3-4
+- updated microsoft link
+- updated sourceforge mirrors
+
+* Mon Nov 25 2002 Daniel Resare <noa resare com> 1.3-3
+- the install dir is now deleted when the package is uninstalled
+- executable permission removed from the fonts
+- executes fc-cache after install if it is available
+
+* Thu Nov 07 2002 Daniel Resare <noa resare com> 1.3-2
+- Microsoft released a new service-pack. New url for Tahoma font.
+
+* Thu Oct 24 2002 Daniel Resare <noa resare com> 1.3-1
+- removed python hack
+- removed python hack info from description
+- made tahoma inclusion depend on define
+- added some info on the ttmkfdir define
+
+* Tue Aug 27 2002 Daniel Resare <noa resare com> 1.2-3
+- fixed spec error when tahoma is not included 
+
+* Tue Aug 27 2002 Daniel Resare <noa resare com> 1.2-2
+- removed tahoma due to unclear licensing
+- parametrized ttmkfdir path (for mandrake users)
+- changed description text to reflect the new microsoft policy
+
+* Thu Aug 15 2002 Daniel Resare <noa resare com> 1.2-1
+- changed distserver because microsoft no longer provides them
+
+* Tue Apr 09 2002 Daniel Resare <noa resare com> 1.1-3
+- fixed post/preun script to actually do what they were supposed to do
+
+* Tue Mar 12 2002 Daniel Resare <noa resare com> 1.1-2
+- removed cabextact from this package
+- added tahoma font from ie5.5 update
+
+* Fri Aug 25 2001 Daniel Resare <noa metamatrix se>
+- initial version

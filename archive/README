@@ -1,0 +1,195 @@
+The problem:
+
+Often in linux you will receive a pdf, word or other such document,
+with windows specific fonts.  The document doesn't have the fonts
+embedded in it, and the font substituted does not look good at all.
+
+You may also get errors about the font not being found.
+
+The solution is to install the fonts on your linux/unix system.
+
+msttcore-fonts-installer-2.6-1.spec
+msttcore-fonts-installer-2.6-1.noarch.rpm
+msttcore-fonts-installer-2.6-1.src.rpm
+
+  This provides the TrueType core fonts for the web that were once
+  available from http://www.microsoft.com/typography/fontpack/.
+  Here the actual fonts are downloaded from a Sourceforge project site
+  mirror and unpacked at install time. Therefore this package
+  technically does not 'redistribute' the fonts.  The fonts are then
+  added to the core X fonts system as well as the Xft font system.
+
+  When you install the rpm, it downloads the following cab files,
+  unpacks them, and installs them to your system
+  (/usr/share/fonts/msttcore).  It indexes, caches, and makes
+  the fonts available to core X fonts and Xft fonts.
+
+Viewing cabinet: andale32.exe
+ File size | Date       Time     | Name
+-----------+---------------------+-------------
+        23 | 27.08.1998 15:51:44 | fontinst.inf
+       506 | 04.09.1998 11:18:44 | andale.inf
+     44032 | 05.06.1998 09:26:22 | fontinst.exe
+    105468 | 12.11.1998 07:18:26 | AndaleMo.TTF
+     74960 | 15.07.1997 06:53:44 | ADVPACK.DLL
+      4608 | 15.07.1997 06:53:44 | W95INF32.DLL
+      2272 | 15.07.1997 06:53:44 | W95INF16.DLL
+
+All done, no errors.
+
+Viewing cabinet: arial32.exe
+ File size | Date       Time     | Name
+-----------+---------------------+-------------
+     45568 | 12.11.1998 19:43:34 | FONTINST.EXE
+        58 | 17.07.2000 09:59:56 | fontinst.inf
+    206132 | 11.05.2000 11:45:10 | Ariali.TTF
+    286620 | 11.05.2000 11:45:04 | Arialbd.TTF
+    224692 | 11.05.2000 11:45:06 | Arialbi.TTF
+    275572 | 11.05.2000 11:45:02 | Arial.TTF
+
+All done, no errors.
+
+Viewing cabinet: arialb32.exe
+ File size | Date       Time     | Name
+-----------+---------------------+-------------
+     44032 | 05.06.1998 09:26:22 | fontinst.exe
+        21 | 09.06.1998 15:21:56 | fontinst.inf
+    117028 | 10.11.1998 13:52:28 | AriBlk.TTF
+
+All done, no errors.
+Viewing cabinet: comic32.exe
+ File size | Date       Time     | Name
+-----------+---------------------+-------------
+        33 | 23.02.1998 16:35:52 | fontinst.inf
+    111476 | 10.11.1998 13:52:38 | Comicbd.TTF
+    126364 | 10.11.1998 13:52:34 | Comic.TTF
+     44032 | 05.06.1998 09:26:22 | fontinst.exe
+
+All done, no errors.
+
+Viewing cabinet: courie32.exe
+ File size | Date       Time     | Name
+-----------+---------------------+-------------
+    302688 | 11.05.2000 11:45:10 | cour.ttf
+    311508 | 11.05.2000 11:45:16 | courbd.ttf
+    234788 | 11.05.2000 11:45:18 | courbi.ttf
+        54 | 16.04.1998 18:14:58 | fontinst.inf
+    244156 | 11.05.2000 11:45:20 | couri.ttf
+     45568 | 12.11.1998 19:43:34 | fontinst.exe
+
+All done, no errors.
+
+Viewing cabinet: EUupdate.EXE
+ File size | Date       Time     | Name
+-----------+---------------------+-------------
+    364676 | 15.11.2006 11:02:26 | Arial.ttf
+    349232 | 15.11.2006 11:02:24 | ArialBd.ttf
+    225848 | 15.11.2006 11:02:14 | ArialBI.ttf
+    206708 | 15.11.2006 11:02:16 | ArialI.ttf
+     45568 | 12.11.1998 19:43:34 | fontinst.exe
+    406760 | 15.11.2006 11:02:30 | Times.ttf
+    395104 | 15.11.2006 11:02:28 | TimesBd.ttf
+    237720 | 15.11.2006 11:02:18 | TimesBI.ttf
+    246400 | 15.11.2006 11:02:16 | TimesI.ttf
+    186192 | 06.12.2006 12:57:58 | Verdana.ttf
+    153540 | 06.12.2006 12:57:58 | Verdanab.ttf
+    175012 | 06.12.2006 12:58:00 | Verdanai.ttf
+    173840 | 06.12.2006 12:58:02 | Verdanaz.ttf
+    141836 | 09.10.2006 14:49:34 | trebucit.ttf
+    136172 | 09.10.2006 14:49:32 | trebuc.ttf
+    126376 | 09.10.2006 14:49:32 | trebucbd.ttf
+    133716 | 09.10.2006 14:49:32 | trebucbi.ttf
+       216 | 27.04.2007 16:06:38 | fontinst.inf
+
+All done, no errors.
+
+Viewing cabinet: georgi32.exe
+ File size | Date       Time     | Name
+-----------+---------------------+-------------
+        64 | 10.11.1998 16:09:52 | fontinst.inf
+    158796 | 10.11.1998 14:00:02 | Georgiaz.TTF
+    139584 | 10.11.1998 14:00:02 | Georgiab.TTF
+    156668 | 10.11.1998 14:00:02 | Georgiai.TTF
+    142964 | 10.11.1998 13:59:58 | Georgia.TTF
+     44032 | 05.06.1998 09:26:22 | fontinst.exe
+
+All done, no errors.
+
+Viewing cabinet: impact32.exe
+ File size | Date       Time     | Name
+-----------+---------------------+-------------
+     44032 | 05.06.1998 09:26:22 | fontinst.exe
+    136076 | 10.11.1998 13:52:52 | Impact.TTF
+        21 | 09.06.1998 15:21:24 | fontinst.inf
+
+All done, no errors.
+
+Viewing cabinet: times32.exe
+ File size | Date       Time     | Name
+-----------+---------------------+-------------
+        58 | 11.07.2000 16:49:20 | fontinst.inf
+    330412 | 11.05.2000 11:45:18 | Times.TTF
+    333900 | 11.05.2000 11:45:20 | Timesbd.TTF
+    238612 | 11.05.2000 11:45:22 | Timesbi.TTF
+    247092 | 11.05.2000 11:45:22 | Timesi.TTF
+     45568 | 12.11.1998 19:43:34 | FONTINST.EXE
+
+All done, no errors.
+
+Viewing cabinet: trebuc32.exe
+ File size | Date       Time     | Name
+-----------+---------------------+-------------
+     45568 | 12.11.1998 19:43:34 | FONTINST.EXE
+    126796 | 09.04.2001 16:05:12 | trebuc.ttf
+    123828 | 09.04.2001 16:05:24 | Trebucbd.ttf
+    131188 | 09.04.2001 16:05:38 | trebucbi.ttf
+    139288 | 09.04.2001 16:05:44 | trebucit.ttf
+        63 | 30.04.2001 13:14:04 | fontinst.inf
+
+All done, no errors.
+
+Viewing cabinet: verdan32.exe
+ File size | Date       Time     | Name
+-----------+---------------------+-------------
+     44032 | 05.06.1998 09:26:22 | fontinst.exe
+        62 | 19.06.1998 17:34:58 | fontinst.inf
+    136032 | 12.11.1998 12:15:02 | Verdanab.TTF
+    154264 | 12.11.1998 07:18:40 | Verdanai.TTF
+    153324 | 12.11.1998 07:18:40 | Verdanaz.TTF
+    139640 | 12.11.1998 07:18:40 | Verdana.TTF
+
+All done, no errors.
+
+Viewing cabinet: wd97vwr32.exe
+ File size | Date       Time     | Name
+-----------+---------------------+-------------
+      3688 | 01.04.1997 14:25:04 | wviewer.INF
+      5044 | 01.04.1997 00:00:00 | License.txt
+     73312 | 01.04.1997 00:00:00 | setup.exe
+       149 | 01.04.1997 00:00:00 | Setup.ini
+      1233 | 01.04.1997 00:00:00 | setup.lst
+   3795956 | 01.04.1997 14:25:16 | Viewer1.cab
+        84 | 01.04.1997 00:00:00 | Setup.tdf
+
+All done, no errors.
+
+Viewing cabinet: webdin32.exe
+ File size | Date       Time     | Name
+-----------+---------------------+-------------
+     44032 | 05.06.1998 10:26:22 | fontinst.exe
+    118752 | 10.07.1998 08:47:56 | Webdings.TTF
+        23 | 26.06.1998 14:43:04 | fontinst.inf
+      4919 | 16.04.1998 18:17:40 | Licen.TXT
+
+All done, no errors.
+
+Viewing cabinet: PowerPointViewer.exe
+ File size | Date       Time     | Name
+-----------+---------------------+-------------
+     12416 | 27.10.2006 22:36:34 | EULA
+     12416 | 27.10.2006 22:36:34 | eula.txt
+  26118038 | 27.10.2006 22:27:20 | ppviewer.cab
+    361984 | 27.10.2006 22:27:20 | ppviewer.msi
+   1323033 | 28.10.2006 02:05:38 | files12.cat
+
+All done, no errors.
