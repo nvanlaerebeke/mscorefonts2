@@ -18,7 +18,7 @@ rpm: clean
 		--build-arg PKG_RELEASE="$(RELEASE)" \
 		--target artifacts \
 		--output type=local,dest=. \
-		--file builder .
+		.
 	printf 'Built %s\nBuilt %s\n' "$(BINARY_RPM)" "$(SOURCE_RPM)"
 
 clean:

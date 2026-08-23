@@ -10,11 +10,10 @@ history, so the initial Git commit is a snapshot of those files, not a
 reconstruction of the upstream commit history.
 
 The fork was created because the installer RPM downloaded font archives from
-SourceForge during the RPM post-install script using plain HTTP. That can fail
-while installing and also meant that package installation depended on an
-unauthenticated network transfer.
-Version 2.7 changes both SourceForge download endpoints in refresh-msttcore-fonts.sh from
-HTTP to HTTPS. The existing checksum verification remains in place.
+SourceForge during the RPM post-install script using plain HTTP. That could
+fail while installing and meant that package installation depended on a
+network transfer. The RPM now contains the font payload and generates its
+font indexes at build time, so installation is self-contained.
 
 This is an interim release. The repository will be cleaned up and converted
 to a normal source-controlled layout. The intended packaging model is to stop
@@ -31,9 +30,8 @@ Build and test the RPM with:
 
     make rpm
 
-The generated RPM is written to `rpms/`. The package still downloads the font
-archives during post-installation, but it does so over HTTPS and verifies their
-checksums. Installing it requires network access to the SourceForge mirrors.
+The generated RPM is written to `rpms/`. Installing it does not require
+network access to the SourceForge mirrors.
 
 Install the generated package with:
 
@@ -43,9 +41,8 @@ The RPM version is read from the root `VERSION` file. The RPM release number
 is the number of commits reachable from `HEAD`, as reported by
 `git rev-list --count HEAD`.
 
-`make rpm` builds the package in Fedora 43, installs it in a disposable Fedora
-43 container, and verifies the downloaded fonts, generated font indexes, and
-fontconfig registration before exporting the RPM and SRPM.
+`make rpm` builds the package and exports the RPM and SRPM from a Fedora 43
+container.
 
 ============
 Description
@@ -57,23 +54,9 @@ Update circa May 2007, still available on the Microsoft website.
 This also installs Microsoft's ClearType fonts, see
 http://www.microsoft.com/typography/ClearTypeFonts.mspx for more info.
 
-With this rpm the actual font cab files are downloaded from a
-Sourceforge project mirror and unpacked at install time. Therefore
-this package technically does not 'redistribute' the fonts.  The
-fonts are then added to the core X fonts system as well as the Xft
+With this rpm the font payload is included in the package and installed
+directly. The fonts are added to the core X fonts system as well as the Xft
 font system.
-
-These are the cab files downloaded:
-
-    andale32.exe, arialb32.exe, comic32.exe, courie32.exe,
-    georgi32.exe, impact32.exe, webdin32.exe, EUupdate.EXE,
-    wd97vwr32.exe, PowerPointViewer.exe
-
-These cab files are only downloaded if EUupdate.EXE cannot be
-downloaded, since the EUupdate.EXE cab contains updates for
-the fonts in these cabs:
-
-    arial32.exe, times32.exe, trebuc32.exe, verdan32.exe
 
 These are the fonts added:
 
