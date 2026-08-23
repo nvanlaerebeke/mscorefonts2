@@ -2,12 +2,8 @@
 %{!?pkg_version: %global pkg_version 2.7}
 %{!?pkg_release: %global pkg_release 1}
 
-# directory to unpack truetype fonts from the cab into
+# directory containing the packaged truetype fonts
 %define fontdir %{_datadir}/fonts/%{fontname} 
-
-%define download_script     /usr/lib/msttcore-fonts-installer/refresh-msttcore-fonts.sh
-%define cabfiles_sha256sums /usr/lib/msttcore-fonts-installer/cabfiles.sha256sums
-%define license_file        /usr/share/doc/msttcore-fonts-installer/READ_ME!
 
 Summary: Installer for Microsoft core TrueType fonts for better Windows Compatibility
 Name: %{fontname}-fonts-installer
@@ -18,9 +14,8 @@ Release: %{pkg_release}
 License: GPLv2
 Group: User Interface/X
 BuildArch: noarch
-Requires: curl
-Requires: cabextract
-Requires: mkfontscale
+BuildRequires: cabextract
+BuildRequires: mkfontscale
 Requires: fontconfig
 Packager: Nico Van Laerebeke <nico.vanlaerebeke gmail com>
 Source: msttcore-fonts-installer.tar
@@ -34,25 +29,9 @@ Update circa May 2007, still available on the Microsoft website.
 This also installs Microsoft's ClearType fonts, see
 http://www.microsoft.com/typography/ClearTypeFonts.mspx for more info.
 
-Note that the TrueType fonts are not part of the rpm.  They are
-downloaded by the rpm when the rpm is installed.
-
-The font cab files are downloaded from a Sourceforge project mirror
-and unpacked at install time. Therefore this package technically
-does not 'redistribute' the cab files.  The fonts are then added to
-the core X fonts system as well as the Xft font system.
-
-These are the cab files downloaded:
-
-    andale32.exe, arialb32.exe, comic32.exe, courie32.exe,
-    georgi32.exe, impact32.exe, webdin32.exe, EUupdate.EXE,
-    wd97vwr32.exe, PowerPointViewer.exe
-
-The following cab files are only downloaded if EUupdate.EXE cannot
-be downloaded, since the EUupdate.EXE cab contains updates for
-the fonts in these cabs:
-
-    arial32.exe, times32.exe, trebuc32.exe, verdan32.exe
+The TrueType fonts are packaged in the rpm and are available immediately
+after installation.  The font indexes are generated while building the rpm;
+installation does not require network access or a post-install download.
 
 These are the fonts added:
 
@@ -76,12 +55,30 @@ These are the fonts added:
 %prep
 %setup -q -n msttcore-fonts-installer
 
+mkdir -p usr/share/fonts/msttcore
+for cab in cabs/andale32.exe cabs/arial32.exe cabs/arialb32.exe \
+           cabs/comic32.exe cabs/courie32.exe cabs/georgi32.exe \
+           cabs/impact32.exe cabs/times32.exe cabs/trebuc32.exe \
+           cabs/verdan32.exe cabs/webdin32.exe cabs/EUupdate.EXE; do
+  cabextract --lowercase -F '*.ttf' \
+    --directory=usr/share/fonts/msttcore "$cab"
+done
+
+mkdir -p build
+cabextract --lowercase -F 'ppviewer.cab' --directory=build cabs/PowerPointViewer.exe
+cabextract --lowercase -F '*.ttf' \
+  --directory=usr/share/fonts/msttcore build/ppviewer.cab
+cabextract --lowercase -F 'viewer1.cab' --directory=build cabs/wd97vwr32.exe
+cabextract --lowercase -F '*.ttf' \
+  --directory=usr/share/fonts/msttcore build/viewer1.cab
+rm -rf cabs build
+
 %install
 find . | cpio -pdm $RPM_BUILD_ROOT
 
 mkdir -p $RPM_BUILD_ROOT/%{fontdir}
-echo not-empty > $RPM_BUILD_ROOT/%{fontdir}/fonts.dir 
-echo not-empty > $RPM_BUILD_ROOT/%{fontdir}/fonts.scale 
+mkfontscale $RPM_BUILD_ROOT/%{fontdir}
+mkfontdir $RPM_BUILD_ROOT/%{fontdir}
 
 mkdir -p $RPM_BUILD_ROOT/etc/X11/xorg.conf.d/
 cat -> $RPM_BUILD_ROOT/etc/X11/xorg.conf.d/09-msttcore-fontpath.conf <<'EOT'
@@ -94,39 +91,11 @@ EOT
 [ "${RPM_BUILD_ROOT:-nonexistantdir}" != "/" ] && rm -rf ${RPM_BUILD_ROOT:-nonexistantdir}
 
 %post
-%{download_script} -F %{fontdir} -L %{license_file}
+%{_bindir}/fc-cache -f %{fontdir} || :
 
 %postun
 if [ "$1" = "0" ]; then
-  counter=0
-  for ff in %{fontdir}/*.ttf; do
-    if [ -f "$ff" ]; then
-      if [ $counter -eq 0 ]; then
-        echo "### Removing ttf files in %{fontdir}" >&2
-      fi
-
-      # these files are installed "manually" so they must be removed "manually".
-      # ie, rpm won't do it for us, it doesn't know about them.
-      rm -f "$ff"
-
-      counter=`expr $counter + 1`
-    fi
-  done
-  if [ $counter -gt 0 ]; then
-    echo "### ttf files already removed" >&2
-  fi
-  if [ -x %{_bindir}/fc-cache ]; then
-    echo "### Rebuilding Xft font cache" >&2
-    %{_bindir}/fc-cache -f -v || :
-  fi
-
-  [ -f /etc/fonts/conf.d/09-msttcore-fonts.conf ] && rm -f /etc/fonts/conf.d/09-msttcore-fonts.conf
-  [ -f "%{license_file}" ] && rm -f "%{license_file}"
-  [ -f /usr/lib/msttcore-fonts-installer/installed-list.txt ] && rm -f /usr/lib/msttcore-fonts-installer/installed-list.txt
-
-  echo "### Removing %{fontdir} from the core X fonts path" >&2
-  xset -fp %{fontdir} || :
-  xset fp rehash || :
+  %{_bindir}/fc-cache -f %{fontdir} || :
 fi
 
 %files
@@ -136,9 +105,12 @@ fi
 %docdir /usr/share/doc/msttcore-fonts-installer
 %attr(-,root,root) /usr/share/doc/msttcore-fonts-installer
 
-/usr/lib/msttcore-fonts-installer
 
 %changelog
+* Sun Aug 23 2026  Nico Van Laerebeke <nico.vanlaerebeke gmail com> 2.8
+- package the font payload and generate font indexes at build time
+- remove the post-install download, checksum manifest, and cabextract runtime dependency
+
 * Sun Aug 23 2026  Nico Van Laerebeke <nico.vanlaerebeke gmail com> 2.7
 - imported the 2013 mscorefonts2 SourceForge project files into Git as a
   temporary preservation and maintenance fork
