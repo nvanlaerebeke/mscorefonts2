@@ -2,23 +2,19 @@
 About this fork
 ==================
 
-This repository is a temporary GitHub fork of the mscorefonts2 project
-published on SourceForge by Rob Janes. The imported files are the last
-SourceForge release from 2013 (msttcore-fonts-installer 2.6-1). SourceForge
-provided downloadable project files rather than the original version-control
-history, so the initial Git commit is a snapshot of those files, not a
-reconstruction of the upstream commit history.
+This repository is a maintained rebuild of the mscorefonts2 project published
+on SourceForge by Rob Janes. The imported files are from the last SourceForge
+release from 2013 (msttcore-fonts-installer 2.6-1). SourceForge provided
+downloadable project files rather than the original version-control history,
+so the initial Git commit is a snapshot of those files, not a reconstruction
+of the upstream commit history.
 
-The fork was created because the installer RPM downloaded font archives from
-SourceForge during the RPM post-install script using plain HTTP. That could
-fail while installing and meant that package installation depended on a
-network transfer. The RPM now contains the font payload and generates its
-font indexes at build time, so installation is self-contained.
-
-This is an interim release. The repository will be cleaned up and converted
-to a normal source-controlled layout. The intended packaging model is to stop
-downloading files from an RPM scriptlet and instead put all required payloads
-in the RPM at build time, subject to their redistribution terms.
+I rebuilt the package to remove the install-time HTTP requests made by the
+original installer RPM. Those requests could fail during installation and
+made installing the package depend on a network transfer. The rebuilt RPM
+includes all required font files and generates their font indexes at build
+time, making installation self-contained and independent of SourceForge
+mirrors, subject to the fonts' redistribution terms.
 
 See docs/RELEASE.md for build and release instructions.
 
