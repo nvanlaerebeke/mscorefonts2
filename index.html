@@ -1,7 +1,31 @@
 <!doctype html>
 <html lang="en">
-<meta charset="utf-8">
-<title>mscorefonts RPM repository</title>
-<h1>mscorefonts RPM repository</h1>
-<p>RPM packages and repository metadata are available in <a href="RPMS/">RPMS/</a>.</p>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mscorefonts RPM repository</title>
+</head>
+<body>
+  <h1>mscorefonts RPM repository</h1>
+
+  <p>Install the repository on Fedora, RHEL, CentOS, Rocky Linux, or AlmaLinux
+  by creating <code>/etc/yum.repos.d/mscorefonts.repo</code> with:</p>
+
+  <pre><code>[mscorefonts]
+name=mscorefonts
+baseurl=https://nvanlaerebeke.github.io/mscorefonts2/RPMS/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://nvanlaerebeke.github.io/mscorefonts2/RPM-GPG-KEY-mscorefonts.asc</code></pre>
+
+  <p>Then refresh the repository metadata and install the package:</p>
+
+  <pre><code>sudo dnf clean metadata
+sudo dnf makecache
+sudo dnf install msttcore-fonts-installer</code></pre>
+
+  <p>Browse the repository files in <a href="RPMS/">RPMS/</a>, or view the
+  <a href="RPMS/repodata/">repository metadata</a>.</p>
+</body>
 </html>
