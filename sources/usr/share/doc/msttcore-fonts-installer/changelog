@@ -1,3 +1,22 @@
+* Sun Aug 23 2026  Nico Van Laerebeke <nico.vanlaerebeke gmail com> 2.7
+- imported the 2013 mscorefonts2 SourceForge project files into Git as a
+  temporary preservation and maintenance fork
+- added a root VERSION file and a build-generated RPM release number
+- moved historical RPMs, source archives, and spec files under archive/
+- replaced the versioned source tarball with a source tree used to create the
+  build archive
+- changed the corefonts and mscorefonts2 download endpoints used by the RPM
+  post-install script from HTTP to HTTPS
+- added a container-based RPM build and release documentation
+- added a Fedora 43 container integration test that runs as part of
+  `make rpm`
+- replaced the legacy xorg-x11-font-utils dependency with mkfontscale, which
+  provides mkfontscale and mkfontdir on Fedora 43
+- consolidated the RPM builder and Fedora 43 test image into one multi-stage
+  container file
+- changed `make rpm` to export RPMs directly into `rpms/` with Docker's local
+  output exporter
+
 * Sun Oct 7 2012  Rob Janes <janes.rob gmail com> 2.2-1
 - moved install script to shell script, run in post step
 - switched to sha256 from md5

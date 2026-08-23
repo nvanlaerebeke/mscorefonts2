@@ -1,24 +1,30 @@
-CONTAINER_ENGINE ?= docker
-IMAGE ?= msttcore-fonts-builder:2.6-1
+VERSION := $(strip $(shell cat VERSION))
+RELEASE := $(strip $(shell git rev-list --count HEAD))
 
 RPM_DIR := rpms
-BINARY_RPM := $(RPM_DIR)/msttcore-fonts-installer-2.7-1.noarch.rpm
-SOURCE_RPM := $(RPM_DIR)/msttcore-fonts-installer-2.7-1.src.rpm
+SPEC_FILE := specs/msttcore-fonts-installer.spec
+BINARY_RPM := $(RPM_DIR)/msttcore-fonts-installer-$(VERSION)-$(RELEASE).noarch.rpm
+SOURCE_RPM := $(RPM_DIR)/msttcore-fonts-installer-$(VERSION)-$(RELEASE).src.rpm
 
-.DEFAULT_GOAL := fonts-installer
+.DEFAULT_GOAL := rpm
 
-.PHONY: clean image fonts-installer
+.PHONY: clean rpm
 
-image:
-	$(CONTAINER_ENGINE) build --tag $(IMAGE) --file builder .
-
-fonts-installer: image
-	@set -eu; \
-	mkdir -p "$(RPM_DIR)"; \
-	container_id="$$( $(CONTAINER_ENGINE) create "$(IMAGE)" )"; \
-	trap '$(CONTAINER_ENGINE) rm -f "$$container_id" >/dev/null 2>&1 || true' EXIT INT TERM; \
-	$(CONTAINER_ENGINE) cp "$$container_id:/rpms/." "$(RPM_DIR)/"; \
+rpm: clean
+	test -f "$(SPEC_FILE)"
+	mkdir -p "$(RPM_DIR)"
+	docker build \
+		--build-arg PKG_VERSION="$(VERSION)" \
+		--build-arg PKG_RELEASE="$(RELEASE)" \
+		--target artifacts \
+		--output type=local,dest=. \
+		--file builder .
 	printf 'Built %s\nBuilt %s\n' "$(BINARY_RPM)" "$(SOURCE_RPM)"
 
 clean:
-	rm -f "$(BINARY_RPM)" "$(SOURCE_RPM)"
+	@set -eu; \
+	if [ -z "$(RPM_DIR)" ] || [ "$(RPM_DIR)" = "/" ]; then \
+		echo "Refusing to clean an empty or root RPM directory" >&2; \
+		exit 1; \
+	fi; \
+	rm -rf "$(RPM_DIR)"/*

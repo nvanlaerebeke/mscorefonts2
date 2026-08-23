@@ -8,9 +8,13 @@ You may also get errors about the font not being found.
 
 The solution is to install the fonts on your linux/unix system.
 
-msttcore-fonts-installer-2.6-1.spec
-msttcore-fonts-installer-2.6-1.noarch.rpm
-msttcore-fonts-installer-2.6-1.src.rpm
+The archive is organized as follows:
+
+* `rpms/` contains historical binary and source RPMs.
+* `sources/` contains historical source tarballs.
+
+The active spec file remains in `specs/msttcore-fonts-installer.spec`; only
+the 2.7 package version is currently used by the build.
 
   This provides the TrueType core fonts for the web that were once
   available from http://www.microsoft.com/typography/fontpack/.

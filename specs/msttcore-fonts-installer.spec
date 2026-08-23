@@ -1,4 +1,6 @@
 %define fontname msttcore
+%{!?pkg_version: %global pkg_version 2.7}
+%{!?pkg_release: %global pkg_release 1}
 
 # directory to unpack truetype fonts from the cab into
 %define fontdir %{_datadir}/fonts/%{fontname} 
@@ -10,18 +12,18 @@
 Summary: Installer for Microsoft core TrueType fonts for better Windows Compatibility
 Name: %{fontname}-fonts-installer
 Obsoletes: msttcorefonts <= 2.6-1
-Provides: msttcorefonts = 2.7-1
-Version: 2.7
-Release: 1
+Provides: msttcorefonts = %{pkg_version}-%{pkg_release}
+Version: %{pkg_version}
+Release: %{pkg_release}
 License: GPLv2
 Group: User Interface/X
 BuildArch: noarch
 Requires: curl
 Requires: cabextract
-Requires: xorg-x11-font-utils
+Requires: mkfontscale
 Requires: fontconfig
 Packager: Nico Van Laerebeke <nico.vanlaerebeke gmail com>
-Source: msttcore-fonts-installer-2.7.tar.gz
+Source: msttcore-fonts-installer.tar
 URL: https://mscorefonts2.sourceforge.net/
 
 %description
@@ -72,7 +74,7 @@ These are the fonts added:
     1998 Webdings
 
 %prep
-%setup
+%setup -q -n msttcore-fonts-installer
 
 %install
 find . | cpio -pdm $RPM_BUILD_ROOT
@@ -137,6 +139,24 @@ fi
 /usr/lib/msttcore-fonts-installer
 
 %changelog
+* Sun Aug 23 2026  Nico Van Laerebeke <nico.vanlaerebeke gmail com> 2.7
+- imported the 2013 mscorefonts2 SourceForge project files into Git as a
+  temporary preservation and maintenance fork
+- added a root VERSION file and a build-generated RPM release number
+- moved historical RPMs, source archives, and spec files under archive/
+- replaced the versioned source tarball with a source tree used to create the
+  build archive
+- changed the corefonts and mscorefonts2 download endpoints used by the RPM
+  post-install script from HTTP to HTTPS
+- added a container-based RPM build and release documentation
+- added a Fedora 43 container integration test that runs as part of `make rpm`
+- replaced the legacy xorg-x11-font-utils dependency with mkfontscale, which
+  provides mkfontscale and mkfontdir on Fedora 43
+- consolidated the RPM builder and Fedora 43 test image into one multi-stage
+  container file
+- changed `make rpm` to export RPMs directly into `rpms/` with Docker's local
+  output exporter
+
 * Wed May 29 2013  Rob Janes <janes.rob gmail com> 2.6-1
 - added ClearType fonts, thanks to Robbie Litchfield.
   see http://www.microsoft.com/typography/ClearTypeFonts.mspx for more info.
@@ -263,4 +283,3 @@ fi
 
 * Fri Aug 25 2001 Daniel Resare <noa metamatrix se>
 - initial version
-
